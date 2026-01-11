@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ApiError } from "next/dist/server/api-utils";
-import { prisma } from "../../../app/generated/prisma/client";
+
+import { prisma } from "../../../lib/prisma";
 
 export default async function handler(
   req: NextApiRequest,
