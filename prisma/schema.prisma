@@ -7,6 +7,22 @@ datasource db {
   provider = "postgresql"
 }
 
+
+model User {
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  hashedPassword String @default("your_default_password_hash_here")
+  
+  @@unique([email])
+  @@map("user")
+}
+
+
 model Product {
   id           Int      @id @default(autoincrement())
   title        String

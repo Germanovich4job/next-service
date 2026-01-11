@@ -1,19 +1,17 @@
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
-
-const prisma = new PrismaClient();
+import bcrypt from "bcrypt";
+import { prisma } from "../../../lib/prisma";
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
+  if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
 
   try {
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
       data: {
-        username,
+        name,
         email,
         hashedPassword,
       },

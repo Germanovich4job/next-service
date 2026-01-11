@@ -7,7 +7,7 @@ const AuthForm = ({ mode }) => {
   const [values, setValues] = useState({
     email: "",
     password: "",
-    username: "",
+    name: "",
   });
 
   const handleInputChange = (event) => {
@@ -46,9 +46,9 @@ const AuthForm = ({ mode }) => {
             required
             fullWidth
             label="User name"
-            name="username"
-            autoComplete="username"
-            value={values.username}
+            name="name"
+            autoComplete="name"
+            value={values.name}
             onChange={handleInputChange}
           />
         </Grid>
