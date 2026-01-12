@@ -1,4 +1,5 @@
-import AuthForm from '@/components/AuthForm';
+"use client";
+import AuthForm from "@/components/AuthForm";
 
 const Page = () => {
   return <AuthForm mode="register" />;

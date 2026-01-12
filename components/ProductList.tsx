@@ -12,7 +12,10 @@ import {
   TextField,
   Button,
   Card,
+  Box,
 } from "@mui/material";
+
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -22,27 +25,49 @@ import {
   useDeleteProductMutation,
   useGetProductByIdQuery,
 } from "@/services/productsApi";
+import React from "react";
 
 const ProductList = () => {
+  const [selectedFile, setSelectedFile] = React.useState(null);
+  const fileInputRef = React.useRef(null);
   const [createProduct, { isLoading }] = useCreateProductMutation();
   const [deleteProduct, { isLoading: deleteProductLoading }] =
     useDeleteProductMutation();
   const { data: products, isError } = useGetAllProductsQuery(); // получаем список товаров
 
   const handleAddProduct = () => {
-    const newProduct = {
-      title: document.querySelector("#title-input")!.value.trim(), // получаем значение поля Title
-      description: document.querySelector("#description-input")!.value.trim(), // получаем значение Description
-      price: Number(document.querySelector("#price-input")!.value.trim()), // получаем число Price
-      quantity: Number(document.querySelector("#quantity-input")!.value.trim()), // получаем число Quantity
-      category: document.querySelector("#category-input")!.value.trim(), // получаем категорию
-      manufacturer: document.querySelector("#manufacturer-input")!.value.trim(), // получаем производителя
-      imageUrl: document.querySelector("#image-url-input")!.value.trim(), // получаем изображение
-    };
+    const formData = new FormData();
+    formData.append(
+      "title",
+      document.querySelector("#title-input")!.value.trim()
+    );
+    formData.append(
+      "description",
+      document.querySelector("#description-input")!.value.trim()
+    );
+    formData.append(
+      "price",
+      document.querySelector("#price-input")!.value.trim()
+    );
+    formData.append(
+      "quantity",
+      document.querySelector("#quantity-input")!.value.trim()
+    );
+    formData.append(
+      "category",
+      document.querySelector("#category-input")!.value.trim()
+    );
+    formData.append(
+      "manufacturer",
+      document.querySelector("#manufacturer-input")!.value.trim()
+    );
+    if (selectedFile) {
+      formData.append("image", selectedFile); // Добавляем выбранный файл
+    }
 
     // Диспатчим создание нового товара
 
-    createProduct(newProduct);
+    createProduct(formData);
   };
 
   // Функция для удаления товара
@@ -152,6 +177,31 @@ const ProductList = () => {
           label="Image URL"
           placeholder="Enter image URL..."
         />
+        <Box>
+          <TextField
+            inputProps={{ id: "title-input" }}
+            label="Title"
+            placeholder="Enter title..."
+          />
+          ...
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setSelectedFile(e.target.files && e.target.files[0])
+            }
+            ref={fileInputRef}
+            hidden
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddAPhotoIcon />}
+            onClick={() => fileInputRef.current.click()}
+          >
+            Загрузить изображение
+          </Button>
+        </Box>
         <Button variant="contained" color="primary" onClick={handleAddProduct}>
           {isLoading ? "Загрузка..." : "Добавить"}
         </Button>
