@@ -5,6 +5,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Provider } from "react-redux";
 import { setupStore } from "@/store/store";
+import { AppBar, Container, Toolbar, Typography } from "@mui/material";
+import LoginIcon from "@mui/icons-material/Login";
+import { Box } from "@mui/material";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,8 +37,24 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
-          <h1>СТРОЙ МАРКЕТ</h1>
-
+          <AppBar
+            position="sticky"
+            className="flex flex-row flex-nowrap"
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "8px",
+            }}
+          >
+            <Typography variant="h6">СТРОЙСНАБЖЕНИЕ</Typography>
+            <Link href="/products">К списку продукции</Link>
+            <Link href="/logout">Выйти</Link>
+            <Link href="/login">Войти</Link>
+            <Link href="/register">Зарегистрироваться</Link>
+            <LoginIcon fontSize="large" />
+          </AppBar>
           {children}
         </Provider>
       </body>
