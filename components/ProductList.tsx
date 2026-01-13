@@ -18,6 +18,7 @@ import {
   useDeleteProductMutation,
 } from "@/services/productsApi";
 import ProductForm from "./ProductForm";
+import ProductCard from "./ProductCard";
 
 const ProductList = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -74,6 +75,14 @@ const ProductList = () => {
                 <TableCell align="right">{row.price.toFixed(2)} ₽</TableCell>
                 <TableCell align="right">{row.quantity}</TableCell>
                 <TableCell align="center">
+                  <Button
+                    size="small"
+                    color="primary"
+                    variant="outlined"
+                    href={`products/${row.id}`}
+                  >
+                    Детали
+                  </Button>{" "}
                   <Button
                     size="small"
                     color="primary"
