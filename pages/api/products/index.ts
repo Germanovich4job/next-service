@@ -1,3 +1,4 @@
+"use client";
 import { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
 import fs from "fs/promises";
@@ -8,7 +9,7 @@ import multer from "multer";
 
 export const config = {
   api: {
-    bodyParser: false, // Отключаем стандартный парсер тела запросов
+    bodyParser: false,
   },
 };
 
@@ -17,13 +18,27 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
+    console.log("this is a get request");
     try {
       const products = await prisma.product.findMany();
       res.status(200).json(products);
     } catch (error) {
       res.status(500).json({ error: (error as ApiError).message });
     }
-  } else if (req.method === "POST") {
+  }
+
+  //   if (req.method === "GET") {
+  //   try {
+  //     const product = await prisma.product.findUnique({
+  //       where: { id: Number(id) },
+  //     });
+  //     if (!product) return res.status(404).json({ error: "Продукт не найден" });
+  //     res.status(200).json(product);
+  //   } catch (error) {
+  //     res.status(500).json({ error: error.message });
+  //   }
+  // } else
+  else if (req.method === "POST") {
     // Используем multer для обработки загруженных файлов
 
     const upload = multer({

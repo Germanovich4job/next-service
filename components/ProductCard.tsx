@@ -11,8 +11,8 @@ import {
   Button,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import { useGetProductByIdQuery } from "@/services/productsApi";
 
-// Определяем интерфейс модели продукта
 interface ProductCardProps {
   product: {
     id: string;
@@ -25,28 +25,25 @@ interface ProductCardProps {
   };
 }
 
-// Специфичные стили для карточек
-const StyledCard = styled(Card)(({ theme }) => ({
-  maxWidth: 345,
-  margin: theme.spacing(2),
-}));
+const ProductCard = ({ id }) => {
+  const { data: product, isLoading } = useGetProductByIdQuery(id);
 
-const ProductCard = ({ product }: ProductCardProps) => {
+  if (!product) return;
   return (
-    <StyledCard>
+    <Card>
       <CardActionArea>
         <CardMedia
           component="img"
           height="280"
-          image={product.imageUrl}
+          image={product?.imageUrl}
           alt={`Фото ${product.title}`}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {product.title}
+            {product?.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {product.description}
+            {product?.description}
           </Typography>
           <Typography variant="subtitle1" color="primary.main">
             Цена: {product.price.toLocaleString()} руб.
@@ -68,7 +65,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           Подробнее
         </Button>
       </CardActions>
-    </StyledCard>
+    </Card>
   );
 };
 
